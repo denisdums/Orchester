@@ -11,12 +11,19 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@meilisearch/instant-meilisearch": "^0.20.0",
     "@remix-run/node": "^2.11.2",
     "@remix-run/react": "^2.11.2",
     "@remix-run/serve": "^2.11.2",
+    "add-to-calendar-button-react": "^2.6.19",
+    "classnames": "^2.5.1",
+    "daisyui": "^4.12.10",
     "isbot": "^4.1.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-instantsearch": "^7.13.0",
+    "recharts": "^2.12.7",
+    "strapi-sdk-js": "^2.3.3"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.11.2",
