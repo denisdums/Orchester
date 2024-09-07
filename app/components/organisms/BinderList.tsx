@@ -19,7 +19,7 @@ export default function BinderList({className, currentPieces}: BinderListProps) 
                     </thead>
                     <tbody>
                     {currentPieces.map((piece, index) => (
-                        <tr>
+                        <tr key={index}>
                             <th>{index + 1}</th>
                             <td>{piece.title}</td>
                             <td>{piece.composer.full_name}</td>
