@@ -20,7 +20,6 @@ export const SessionService = {
     session.set("userId", userId);
     session.set("userJwt", jwt);
     const cookies = await storage.commitSession(session);
-    console.log(cookies)
 
     return redirect(redirectTo, {
       headers: {

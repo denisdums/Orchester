@@ -17,8 +17,6 @@ export async function action({request}: ActionFunctionArgs) {
 
     const data = await UserRepository.authenticate(email, password);
 
-    console.log(data);
-
     if (!data) {
         return {
             error: "Email or password is incorrect",
