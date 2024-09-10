@@ -15,6 +15,7 @@ import GlobalProvider from "~/providers/Global.provider";
 import React from "react";
 import Header from "~/components/templates/Header";
 import {IFeatureFlags} from "~/interfaces/FeatureFlags.interface";
+import PageProgress from "~/components/atoms/PageProgress/PageProgress";
 
 
 export async function loader({params, request}: LoaderFunctionArgs) {
@@ -52,6 +53,7 @@ export function Layout() {
     <body>
     <GlobalProvider data={data}>
       <Header/>
+      <PageProgress/>
       <main className="px-4 md:px-0 max-w-5xl mx-auto">
         <App/>
       </main>

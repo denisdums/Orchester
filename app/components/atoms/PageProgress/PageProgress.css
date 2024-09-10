@@ -1,0 +1,17 @@
+html body #nprogress {
+    .bar {
+        @apply bg-primary;
+    }
+
+    .peg {
+        @apply shadow shadow-primary
+    }
+
+    .spinner-icon {
+        @apply border-t-primary border-l-primary;
+    }
+
+    .nprogress-spinner {
+        @apply block fixed z-50 top-[15px] right-[15px];
+    }
+}
