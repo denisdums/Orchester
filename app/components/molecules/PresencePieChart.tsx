@@ -1,10 +1,13 @@
 import {IPupitreCount} from "~/interfaces/Event.interface";
 import {Cell, Label, LabelList, Legend, Pie, PieChart, ResponsiveContainer, Tooltip} from "recharts";
+import {useMediaQueries} from "~/providers/MediaQueries.provider";
 
 export type PresencePieChartProps = {
     pupitreCounts: IPupitreCount[]
 }
 export default function PresencePieChart({pupitreCounts}: PresencePieChartProps) {
+    const {isMobile} = useMediaQueries();
+
     const colors = [
         'oklch(var(--p))',
         'oklch(var(--s))',
@@ -26,7 +29,7 @@ export default function PresencePieChart({pupitreCounts}: PresencePieChartProps)
     });
 
     return (
-        <ResponsiveContainer width="100%" height={150}>
+        <ResponsiveContainer width="100%" height={isMobile ? 325 : 250}>
             <PieChart>
                 <Pie
                     data={eventChartDatas}

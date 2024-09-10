@@ -7,7 +7,7 @@ export type NextEventsListProps = {
 
 export default function NextEventsList({events}: NextEventsListProps) {
     return (
-        <div className="col-span-4 bg-base-100 ">
+        <div className="col-span-4 bg-base-100">
             <h2>Prochains évènements</h2>
             <div className="carousel carousel-center p-4 space-x-4 rounded-box">
                 {events.map((event: IEvent, index: number) => (

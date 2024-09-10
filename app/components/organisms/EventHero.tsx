@@ -16,10 +16,10 @@ export default function EventHero({event}: EventHeroProps) {
   return (
     <div className="hero py-14 bg-base-200 relative">
       <div className="hero-content text-center">
-        <div className="max-w-md">
+        <div className="max-w-md flex flex-col gap-4">
           <h1 className="text-5xl font-bold">{event.title}</h1>
           <p className="text-neutral/40 first-letter:uppercase">{dateInLetters}</p>
-          <p className="py-6">{event.description}</p>
+          {event.description && <p className="py-6">{event.description}</p>}
           {flags?.eventResponses && <EventResponseForm event={event}/>}
         </div>
         <div>
