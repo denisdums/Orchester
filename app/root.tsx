@@ -17,6 +17,24 @@ import Header from "~/components/templates/Header";
 import {IFeatureFlags} from "~/interfaces/FeatureFlags.interface";
 import PageProgress from "~/components/atoms/PageProgress/PageProgress";
 
+export function links() {
+  return [
+    {
+      rel: "icon",
+      sizes: "any",
+      href: "/favicon.ico",
+    },
+    {
+      rel: "icon",
+      type: "image/svg+xml",
+      href: "/favicon.svg",
+    },
+    {
+      rel: "apple-touch-icon",
+      href: "/apple-touch-icon.png",
+    },
+  ]
+}
 
 export async function loader({params, request}: LoaderFunctionArgs) {
   const featureFlags: IFeatureFlags = {
@@ -46,7 +64,13 @@ export function Layout() {
     <html lang="en">
     <head>
       <meta charSet="utf-8"/>
+      <meta name="apple-mobile-web-app-capable" content="yes"/>
+      <meta name="mobile-web-app-capable" content="yes"/>
+      <meta name="apple-touch-fullscreen" content="yes"/>
+      <meta name="apple-mobile-web-app-title" content="orchester"/>
+      <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
       <meta name="viewport" content="width=device-width, initial-scale=1"/>
+      <meta name="theme-color" content="#FFFFFF"/>
       <Meta/>
       <Links/>
     </head>
