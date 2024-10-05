@@ -51,7 +51,7 @@ export const EventRepository = {
             params: {
                 populate: "*",
                 sort: "date:asc",
-                date_gt: new Date().toISOString()
+                "filters[date][$gte]": new Date().toISOString()
             }
         });
         return {data}
