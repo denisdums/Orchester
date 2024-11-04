@@ -11,7 +11,7 @@ export async function action({request}: ActionFunctionArgs) {
 
     if (!email || !password) {
         return {
-            error: "Email or password is missing",
+            error: "Il manque des informations pour se connecter",
         };
     }
 
@@ -19,7 +19,7 @@ export async function action({request}: ActionFunctionArgs) {
 
     if (!data) {
         return {
-            error: "Email or password is incorrect",
+            error: "Email ou mot de passe incorrect",
         };
     }
 
