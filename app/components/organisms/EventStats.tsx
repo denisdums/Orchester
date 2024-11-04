@@ -1,7 +1,9 @@
-import {IEventDetail, IPupitreCount} from "~/interfaces/Event.interface";
+import {IEventDetail, IPupitreCount} from "~/interfaces/event.interface";
 import {useEffect, useState} from "react";
-import {IMusicianGroup} from "~/interfaces/Musician.interface";
+import {IMusicianGroup} from "~/interfaces/musician.interface";
 import PresencePieChart from "~/components/molecules/PresencePieChart";
+import {H3, H4, P} from "~/components/ui/typography";
+import {Card, CardContent, CardHeader} from "~/components/ui/card";
 
 export type EventStatsProps = {
     event: IEventDetail
@@ -50,22 +52,33 @@ export function EventStats({event, musicianGroups}: EventStatsProps) {
 
     return (
         <div className="flex flex-col items-center gap-10">
-            <div className="stats stats-vertical lg:stats-horizontal">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {mostPresentPupitre && (
-                    <div className="stat">
-                        <div className="stat-title">Pupitre le plus représenté</div>
-                        <div className="stat-value">{mostPresentPupitre?.title}</div>
-                        <div className="stat-desc">{mostPresentPupitre?.count} musiciens</div>
-                    </div>
+                    <Card>
+                        <CardHeader>
+                            <H3>Pupitre le plus représenté</H3>
+                        </CardHeader>
+                        <CardContent>
+                            <H4>{mostPresentPupitre?.title}</H4>
+                            <P>{mostPresentPupitre?.count} musiciens</P>
+                        </CardContent>
+                    </Card>
                 )}
-                <div className="stat">
-                    <div className="stat-title">Participants</div>
-                    <div className="stat-value">{event.presences.length}</div>
-                    <div className="stat-desc">{presencePercentage}% de présents</div>
-                </div>
+                {!!event.presences.length && (
+                    <Card>
+                        <CardHeader>
+                            <H3>Participants</H3>
+                        </CardHeader>
+                        <CardContent>
+                            <H4>{event.presences.length}</H4>
+                            <P>{presencePercentage}% de présents</P>
+                        </CardContent>
+                    </Card>
+                )}
             </div>
-
-            <PresencePieChart pupitreCounts={getPupitreCounts()}/>
+            {!!event.presences.length && (
+                <PresencePieChart pupitreCounts={getPupitreCounts()}/>
+            )}
         </div>
     )
 }

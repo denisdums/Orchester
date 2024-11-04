@@ -1,4 +1,4 @@
-import {SessionService} from "~/services/SessionService";
+import {SessionService} from "~/services/session.service";
 
 export async function loader() {
     return await SessionService.deleteUserSession('/')

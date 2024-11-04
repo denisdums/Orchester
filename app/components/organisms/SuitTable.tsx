@@ -1,5 +1,5 @@
 import SuitRow from "~/components/molecules/SuitRow";
-import {IMusicianSuitItem} from "~/interfaces/Musician.interface";
+import {IMusicianSuitItem} from "~/interfaces/musician.interface";
 
 export type SuitTableProps = {
     suit: IMusicianSuitItem[]

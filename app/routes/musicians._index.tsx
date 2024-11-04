@@ -1,7 +1,7 @@
 import type {MetaFunction} from "@remix-run/node";
 import {LoaderFunctionArgs, useLoaderData} from "react-router";
-import {MusicianService} from "~/services/MusicianService";
-import {IMusician} from "~/interfaces/Musician.interface";
+import {MusicianService} from "~/services/musician.service";
+import {IMusician} from "~/interfaces/musician.interface";
 import Musicians from "~/pages/Musicians";
 
 export const meta: MetaFunction = () => {

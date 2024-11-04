@@ -1,5 +1,11 @@
-import {Link} from "@remix-run/react";
-import {IMeta} from "~/interfaces/Meta.interface";
+import {IMeta} from "~/interfaces/meta.interface";
+import {
+    Pagination,
+    PaginationContent, PaginationEllipsis,
+    PaginationItem,
+    PaginationLink, PaginationNext,
+    PaginationPrevious
+} from "~/components/ui/pagination";
 
 export default function StrapiPagination(props: { meta: IMeta }) {
     const {meta} = props;
@@ -7,18 +13,90 @@ export default function StrapiPagination(props: { meta: IMeta }) {
     if (!meta.pagination) return null;
 
     const {page, pageCount} = meta.pagination;
+
     const currentPage = page;
+    const previousPage = currentPage - 1;
+    const nextPage = currentPage + 1;
+
+    const firstPageIndex = 1;
+    const lastPageIndex = pageCount;
+
+    const twoBeforeArray = [];
+    const twoAfterArray = [];
+    const twoBeforeIndex = currentPage - 2;
+    const oneBeforeIndex = currentPage - 1;
+    const twoAfterIndex = currentPage + 2;
+    const oneAfterIndex = currentPage + 1;
+
+    if (twoBeforeIndex > 0) {
+        twoBeforeArray.push(twoBeforeIndex);
+    }
+    if (oneBeforeIndex > 0) {
+        twoBeforeArray.push(oneBeforeIndex);
+    }
+    if (oneAfterIndex <= pageCount) {
+        twoAfterArray.push(oneAfterIndex);
+    }
+    if (twoAfterIndex <= pageCount) {
+        twoAfterArray.push(twoAfterIndex);
+    }
+
+    const needBeforeEllipsis = twoBeforeIndex > firstPageIndex + 1;
+    const needAfterEllipsis = twoAfterIndex < lastPageIndex - 1;
+
+
     return (
-        <div className="flex justify-center">
-            <div className={`${pageCount > 1 ? 'join' : ''}`}>
-                {Array.from({length: pageCount}, (_, i) => i + 1).map((page, index) => (
-                    <Link key={index}
-                          className={`join-item btn btn-square ${currentPage === page ? 'btn-primary' : ''}`}
-                          to={`/musicians?page=${page}`}>
-                        {page}
-                    </Link>
+        <Pagination>
+            <PaginationContent>
+                {previousPage > 0 && (
+                    <PaginationItem>
+                        <PaginationPrevious to={`/musicians?page=${previousPage}`}/>
+                    </PaginationItem>
+                )}
+                {!twoBeforeArray.includes(firstPageIndex) && (
+                    <PaginationItem>
+                        <PaginationLink to={`/musicians?page=${firstPageIndex}`}
+                                        isActive={firstPageIndex === currentPage}>{firstPageIndex}</PaginationLink>
+                    </PaginationItem>
+                )}
+                {needBeforeEllipsis && (
+                    <PaginationItem>
+                        <PaginationEllipsis/>
+                    </PaginationItem>
+                )}
+                {twoBeforeArray && twoBeforeArray.map((index) => (
+                    <PaginationItem key={index}>
+                        <PaginationLink to={`/musicians?page=${index}`}>{index}</PaginationLink>
+                    </PaginationItem>
                 ))}
-            </div>
-        </div>
+                {firstPageIndex !== currentPage && lastPageIndex !== currentPage && (
+                    <PaginationItem>
+                        <PaginationLink to={`/musicians?page=${currentPage}`}
+                                        isActive={true}>{currentPage}</PaginationLink>
+                    </PaginationItem>
+                )}
+                {twoAfterArray && twoAfterArray.map((index) => (
+                    <PaginationItem key={index}>
+                        <PaginationLink to={`/musicians?page=${index}`}>{index}</PaginationLink>
+                    </PaginationItem>
+                ))}
+                {needAfterEllipsis && (
+                    <PaginationItem>
+                        <PaginationEllipsis/>
+                    </PaginationItem>
+                )}
+                {!twoAfterArray.includes(lastPageIndex) && (
+                    <PaginationItem>
+                        <PaginationLink to={`/musicians?page=${lastPageIndex}`}
+                                        isActive={lastPageIndex === currentPage}>{lastPageIndex}</PaginationLink>
+                    </PaginationItem>
+                )}
+                {pageCount > 1 && nextPage <= pageCount && (
+                    <PaginationItem>
+                        <PaginationNext to={`/musicians?page=${nextPage}`}/>
+                    </PaginationItem>
+                )}
+            </PaginationContent>
+        </Pagination>
     );
 }

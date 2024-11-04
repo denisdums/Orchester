@@ -1,5 +1,6 @@
-import {IEvent} from "~/interfaces/Event.interface";
-import EventSquareCard from "~/components/molecules/EventSquareCard";
+import {IEvent} from "~/interfaces/event.interface";
+import EventCard from "~/components/molecules/EventCard";
+import {H4} from "~/components/ui/typography";
 
 export type NextEventsListProps = {
     events: IEvent[]
@@ -7,11 +8,11 @@ export type NextEventsListProps = {
 
 export default function NextEventsList({events}: NextEventsListProps) {
     return (
-        <div className="col-span-4 bg-base-100">
-            <h2>Prochains évènements</h2>
-            <div className="carousel carousel-center p-4 space-x-4 rounded-box">
-                {events.map((event: IEvent, index: number) => (
-                    <EventSquareCard event={event} key={index}/>
+        <div className="col-span-4 bg-base-100 flex flex-col gap-4">
+            <H4>Prochains évènements</H4>
+            <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8"}>
+                {events.map((event, index) => (
+                    <EventCard event={event} key={index}/>
                 ))}
             </div>
         </div>

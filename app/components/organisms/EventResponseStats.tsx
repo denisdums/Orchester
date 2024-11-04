@@ -1,6 +1,6 @@
-import {IEventDetail, IEventResponse, IPupitreCount} from "~/interfaces/Event.interface";
+import {IEventDetail, IEventResponse, IPupitreCount} from "~/interfaces/event.interface";
 import {useEffect, useState} from "react";
-import {IMusicianGroup} from "~/interfaces/Musician.interface";
+import {IMusicianGroup} from "~/interfaces/musician.interface";
 import PresencePieChart from "~/components/molecules/PresencePieChart";
 
 export type EventStatsProps = {

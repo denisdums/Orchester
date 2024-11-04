@@ -1,6 +1,6 @@
-import {ActionFunctionArgs, redirect} from "@remix-run/node";
-import {UserRepository} from "~/repositories/UserRepository";
-import {SessionService} from "~/services/SessionService";
+import {ActionFunctionArgs} from "@remix-run/node";
+import {UserRepository} from "~/repositories/user.repository";
+import {SessionService} from "~/services/session.service";
 import {useActionData} from "@remix-run/react";
 import LoginForm from "~/components/organisms/LoginForm";
 
@@ -31,6 +31,10 @@ export async function action({request}: ActionFunctionArgs) {
 export default function Login() {
     const actionData = useActionData<{ error: any } | undefined>();
     return (
-        <LoginForm error={actionData?.error}/>
+        <section className="py-32">
+            <div className="container">
+                <LoginForm error={actionData?.error}/>
+            </div>
+        </section>
     )
 }

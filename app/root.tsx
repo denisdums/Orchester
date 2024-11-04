@@ -9,13 +9,14 @@ import {
 import {json, type LoaderFunctionArgs} from "@remix-run/node";
 
 import "./tailwind.css";
-import {UserService} from "~/services/UserService";
-import {SessionService} from "~/services/SessionService";
+import {UserService} from "~/services/user.service";
+import {SessionService} from "~/services/session.service";
 import GlobalProvider from "~/providers/Global.provider";
 import React from "react";
 import Header from "~/components/templates/Header";
-import {IFeatureFlags} from "~/interfaces/FeatureFlags.interface";
+import {IFeatureFlags} from "~/interfaces/featureFlags.interface";
 import PageProgress from "~/components/atoms/PageProgress/PageProgress";
+import {Toaster} from "~/components/ui/toaster";
 
 export function links() {
   return [
@@ -81,6 +82,7 @@ export function Layout() {
       <main className="px-4 md:px-0 max-w-5xl mx-auto overflow-x-clip">
         <App/>
       </main>
+      <Toaster />
       <ScrollRestoration/>
       <Scripts/>
     </GlobalProvider>

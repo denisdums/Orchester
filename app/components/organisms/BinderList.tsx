@@ -1,4 +1,4 @@
-import {IPiece} from "~/interfaces/Piece.interface";
+import {IPiece} from "~/interfaces/piece.interface";
 
 export type BinderListProps = {
     currentPieces: IPiece[],

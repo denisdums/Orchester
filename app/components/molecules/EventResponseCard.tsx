@@ -1,6 +1,6 @@
-import {IMusician} from "~/interfaces/Musician.interface";
+import {IMusician} from "~/interfaces/musician.interface";
 import classNames from "classnames";
-import {IEventResponse} from "~/interfaces/Event.interface";
+import {IEventResponse} from "~/interfaces/event.interface";
 
 export type EventPresenceCheckboxProps = {
     musician: IMusician,

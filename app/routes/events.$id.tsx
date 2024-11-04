@@ -1,14 +1,14 @@
 import type {MetaFunction} from "@remix-run/node";
 import {LoaderFunctionArgs, useLoaderData} from "react-router";
-import {IUser} from "~/interfaces/User.interface";
+import {IUser} from "~/interfaces/user.interface";
 import Event from "~/pages/Event";
-import {IEventDetail} from "~/interfaces/Event.interface";
-import {MusicianService} from "~/services/MusicianService";
-import {EventService} from "~/services/EventService";
-import {IMusicianGroup} from "~/interfaces/Musician.interface";
-import {SessionService} from "~/services/SessionService";
+import {IEventDetail} from "~/interfaces/event.interface";
+import {MusicianService} from "~/services/musician.service";
+import {EventService} from "~/services/event.service";
+import {IMusicianGroup} from "~/interfaces/musician.interface";
+import {SessionService} from "~/services/session.service";
 import {redirect} from "@remix-run/node";
-import {UserService} from "~/services/UserService";
+import {UserService} from "~/services/user.service";
 
 export type EventLoaderData = {
     user: IUser,

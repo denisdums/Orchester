@@ -1,6 +1,6 @@
-import {IMusician, IMusicianGroup} from "~/interfaces/Musician.interface";
+import {IMusician, IMusicianGroup} from "~/interfaces/musician.interface";
 import EventResponseCard from "~/components/molecules/EventResponseCard";
-import {IEventResponse} from "~/interfaces/Event.interface";
+import {IEventResponse} from "~/interfaces/event.interface";
 
 export type EventResponsesFormProps = {
     musicianGroups: IMusicianGroup[],

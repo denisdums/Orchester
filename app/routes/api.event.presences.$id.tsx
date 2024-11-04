@@ -1,6 +1,6 @@
 import type {ActionFunctionArgs} from "@remix-run/node";
-import {SessionService} from "~/services/SessionService";
-import {EventService} from "~/services/EventService";
+import {SessionService} from "~/services/session.service";
+import {EventService} from "~/services/event.service";
 
 export async function action({request, params}: ActionFunctionArgs) {
     const {isLoggedIn} = await SessionService.isUserLoggedIn(request);
@@ -20,7 +20,6 @@ export async function action({request, params}: ActionFunctionArgs) {
         event = await EventService.savePresences(params.id, presencesIds);
         success = true;
     } catch (e) {
-        console.log(e);
         success = false;
     }
 

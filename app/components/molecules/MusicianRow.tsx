@@ -1,5 +1,8 @@
-import {IMusician} from "~/interfaces/Musician.interface";
+import {IMusician} from "~/interfaces/musician.interface";
 import {Link} from "@remix-run/react";
+import {TableCell, TableRow} from "~/components/ui/table";
+import {Button} from "~/components/ui/button";
+import {ArrowUpRightFromSquare} from "lucide-react";
 
 export type MusicianRowProps = {
     musician: IMusician,
@@ -7,15 +10,18 @@ export type MusicianRowProps = {
 
 export default function MusicianRow(props: MusicianRowProps) {
     return (
-        <tr className="relative hover:bg-secondary hover:text-white even:bg-black/5">
-            <th>
-                <Link to={`/musicians/${props.musician.id}`}
-                      className="after:block after:w-full after:h-full after:absolute after:top-0 after:left-0">
-                    {props.musician.id}
-                </Link>
-            </th>
-            <td>{props.musician.full_name}</td>
-            <td>{props.musician.pupitre.title}</td>
-        </tr>
+        <TableRow key={props.musician.id}>
+            <TableCell className="font-medium">{props.musician.id}</TableCell>
+            <TableCell>{props.musician.full_name}</TableCell>
+            <TableCell>{props.musician.pupitre.title}</TableCell>
+            <TableCell>{props.musician.presences?.length}</TableCell>
+            <TableCell>
+                <Button asChild={true} className="block w-max ml-auto">
+                    <Link to={`/musicians/${props.musician.id}`}>
+                        <ArrowUpRightFromSquare/>
+                    </Link>
+                </Button>
+            </TableCell>
+        </TableRow>
     )
 }

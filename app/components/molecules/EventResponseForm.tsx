@@ -1,4 +1,4 @@
-import {IEventDetail} from "~/interfaces/Event.interface";
+import {IEventDetail} from "~/interfaces/event.interface";
 import {useUser} from "~/providers/User.provider";
 import classNames from "classnames";
 import {useRef, useState} from "react";

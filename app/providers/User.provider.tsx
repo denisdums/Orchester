@@ -1,5 +1,5 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {IUser} from "~/interfaces/User.interface";
+import {IUser} from "~/interfaces/user.interface";
 
 export type UserContextType = {
     isLogged: boolean | false;

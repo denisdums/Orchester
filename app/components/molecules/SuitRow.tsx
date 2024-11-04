@@ -1,4 +1,4 @@
-import {IMusicianSuitItem} from "~/interfaces/Musician.interface";
+import {IMusicianSuitItem} from "~/interfaces/musician.interface";
 
 export type SuitRowProps = {
     name: string,

@@ -1,10 +1,10 @@
 import type {MetaFunction} from "@remix-run/node";
 import Homepage from "~/pages/Homepage";
 import {json, LoaderFunctionArgs, useLoaderData} from "react-router";
-import {PieceService} from "~/services/PieceService";
-import {IPiece} from "~/interfaces/Piece.interface";
-import {EventService} from "~/services/EventService";
-import {IEvent} from "~/interfaces/Event.interface";
+import {PieceService} from "~/services/piece.service";
+import {IPiece} from "~/interfaces/piece.interface";
+import {EventService} from "~/services/event.service";
+import {IEvent} from "~/interfaces/event.interface";
 
 export const meta: MetaFunction = () => {
     return [

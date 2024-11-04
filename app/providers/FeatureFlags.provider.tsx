@@ -1,5 +1,5 @@
-import {createContext, PropsWithChildren, useContext, useEffect, useState} from "react";
-import {IFeatureFlags} from "~/interfaces/FeatureFlags.interface";
+import {createContext, PropsWithChildren, useContext} from "react";
+import {IFeatureFlags} from "~/interfaces/featureFlags.interface";
 
 export type FeatureFlagsContextType = {
   flags: IFeatureFlags | undefined;

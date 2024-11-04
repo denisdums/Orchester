@@ -1,6 +1,5 @@
 import React from "react";
 import UserProvider from "~/providers/User.provider";
-import ToastProvider from "~/providers/Toast.provider";
 import MediaQueriesProvider from "~/providers/MediaQueries.provider";
 
 export type GlobalProviderDataType = {
@@ -9,12 +8,10 @@ export type GlobalProviderDataType = {
 }
 export default function GlobalProvider({children, data}: GlobalProviderDataType) {
     return (
-        <UserProvider isLogged={data.isLogged} user={data?.user}>
-            <ToastProvider>
-              <MediaQueriesProvider>
+        <UserProvider isLogged={data?.isLogged} user={data?.user}>
+            <MediaQueriesProvider>
                 {children}
-              </MediaQueriesProvider>
-            </ToastProvider>
+            </MediaQueriesProvider>
         </UserProvider>
     );
 }

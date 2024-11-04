@@ -1,12 +1,12 @@
 import type {MetaFunction} from "@remix-run/node";
 import {LoaderFunctionArgs, useLoaderData} from "react-router";
-import {SessionService} from "~/services/SessionService";
-import {UserService} from "~/services/UserService";
+import {SessionService} from "~/services/session.service";
+import {UserService} from "~/services/user.service";
 import {redirect} from "@remix-run/node";
-import {IUser} from "~/interfaces/User.interface";
-import {EventService} from "~/services/EventService";
+import {IUser} from "~/interfaces/user.interface";
+import {EventService} from "~/services/event.service";
 import Events from "~/pages/Events";
-import {IEvent} from "~/interfaces/Event.interface";
+import {IEvent} from "~/interfaces/event.interface";
 
 export const meta: MetaFunction = () => {
     return [

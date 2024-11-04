@@ -1,26 +1,45 @@
+import {IEvent} from "~/interfaces/event.interface";
 import {Link} from "@remix-run/react";
-import {IEvent} from "~/interfaces/Event.interface";
+import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "~/components/ui/card";
+import {Button} from "~/components/ui/button";
+import {useEffect, useState} from "react";
 
-export type EventCardProps = {
-    event: IEvent
+export type EventSquareCardProps = {
+    event: IEvent,
+    key?: number
 }
 
-export default function EventCard({event}: EventCardProps) {
+export default function EventCard(props: EventSquareCardProps) {
+    const {event} = props;
+    const date = new Date(event.date);
+    const day = date.getDate() > 1 ? date.getDate() : "1er";
+    const year = date.getFullYear();
+
+    const [dayInLetters, setDayInLetters] = useState<string>('')
+    const [monthInLetters, setMonthInLetters] = useState<string>('')
+
+    useEffect(() => {
+        setDayInLetters(date.toLocaleString('default', {weekday: 'long'}));
+        setMonthInLetters(date.toLocaleString('default', {month: 'long'}));
+    }, [date])
+
     return (
-        <div className="card w-full bg-base-100 shadow-xl relative">
-            <div className="card-body flex flex-col gap-5">
-                <div className="flex justify-between">
-                    <Link to={`/events/${event.id}`}
-                          className="after:block after:absolute after:w-full after:h-full after:top-0 after:left-0">
-                        <h2 className="card-title">{event.title}</h2>
-                    </Link>
-                    <span className="text-neutral/30">{new Date(event.date).toLocaleString()}</span>
-                </div>
+        <Card>
+            <CardHeader>
+                <CardTitle>{event.title}</CardTitle>
+                <CardDescription>{dayInLetters} {day} {monthInLetters} {year}</CardDescription>
+            </CardHeader>
+            <CardContent>
                 <p>{event.description}</p>
-                <div className="card-actions justify-end">
-                    <button className="btn btn-primary">Voir l'évènement</button>
-                </div>
-            </div>
-        </div>
+            </CardContent>
+            <CardFooter>
+                <Button asChild={true}>
+                    <Link to={'/events/' + event.id}>
+                        Voir l'évènement
+                    </Link>
+                </Button>
+            </CardFooter>
+        </Card>
+
     )
 }

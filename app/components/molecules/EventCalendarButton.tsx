@@ -1,4 +1,4 @@
-import {IEvent} from "~/interfaces/Event.interface";
+import {IEvent} from "~/interfaces/event.interface";
 import {atcb_action} from "add-to-calendar-button-react";
 import {createRef} from "react";
 import CalendarIcon from "~/components/atoms/CalendarIcon";

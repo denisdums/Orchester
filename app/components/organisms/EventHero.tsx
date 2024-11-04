@@ -1,31 +1,35 @@
-import {IEventDetail} from "~/interfaces/Event.interface";
-import EventCalendarButton from "~/components/molecules/EventCalendarButton";
-import EventResponseForm from "~/components/molecules/EventResponseForm";
-import {useFeatureFlags} from "~/providers/FeatureFlags.provider";
+import {IEventDetail} from "~/interfaces/event.interface";
+import {useEffect, useState} from "react";
 
 export type EventHeroProps = {
-  event: IEventDetail;
+    event: IEventDetail;
 }
 
 export default function EventHero({event}: EventHeroProps) {
-  const date = new Date(event.date);
-  const dateInLetters = date.toLocaleString('default', {weekday: 'long'}) + " " + date.getDate() + " " + date.toLocaleString('default', {month: 'long'}) + " " + date.getFullYear();
-  const {flags} = useFeatureFlags();
+    const [dateInLetters, setDateInLetters] = useState<string>("");
 
+    useEffect(() => {
+        const date = new Date(event.date);
+        setDateInLetters(date.toLocaleString('default', {weekday: 'long'}) + " " + date.getDate() + " " + date.toLocaleString('default', {month: 'long'}) + " " + date.getFullYear())
+    }, [event.date]);
 
-  return (
-    <div className="hero py-14 bg-base-200 relative">
-      <div className="hero-content text-center">
-        <div className="max-w-md flex flex-col gap-4">
-          <h1 className="text-5xl font-bold">{event.title}</h1>
-          <p className="text-neutral/40 first-letter:uppercase">{dateInLetters}</p>
-          {event.description && <p className="py-6">{event.description}</p>}
-          {flags?.eventResponses && <EventResponseForm event={event}/>}
-        </div>
-        <div>
-          <EventCalendarButton event={event} className={"absolute top-5 right-5"}/>
-        </div>
-      </div>
-    </div>
-  )
+    return (
+        <section>
+            <div className="container">
+                <div className="grid items-center gap-8 lg:grid-cols-2">
+                    <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
+                        <div className="py-2 px-4 border rounded-full text-xs">
+                            {dateInLetters}
+                        </div>
+                        <h1 className="my-6 text-pretty text-4xl font-bold lg:text-6xl">
+                            {event.title}
+                        </h1>
+                        <p className="mb-8 max-w-xl text-muted-foreground lg:text-xl">
+                            {event.description}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    )
 }
