@@ -10,12 +10,16 @@ import {
     BreadcrumbSeparator
 } from "~/components/ui/breadcrumb";
 import {Slash} from "lucide-react";
+import {IMeta} from "~/interfaces/meta.interface";
+import StrapiPagination from "~/components/molecules/StrapiPagination";
+import StrapiListInfos from "~/components/molecules/StrapiListInfos";
 
 export type EventsProps = {
     user: IUser,
-    events: IEvent[]
+    events: IEvent[],
+    meta: IMeta
 }
-export default function Events({events}: EventsProps) {
+export default function Events({events, meta}: EventsProps) {
 
     return (
         <>
@@ -32,8 +36,10 @@ export default function Events({events}: EventsProps) {
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-            <div className="flex flex-col gap-24">
+            <div className="flex flex-col gap-10">
+                <StrapiListInfos meta={meta}/>
                 <EventList events={events}/>
+                <StrapiPagination meta={meta}/>
             </div>
         </>
     )

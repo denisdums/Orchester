@@ -1,15 +1,27 @@
 import {StrapiClient} from "~/db/Strapi";
 import {IRawEvent} from "~/interfaces/event.interface";
+import {IMeta} from "~/interfaces/meta.interface";
 
 export const EventRepository = {
     type: "events",
-    getAll: async (): Promise<{ data: IRawEvent[] }> => {
-        const {data} = await StrapiClient.find(EventRepository.type, 1, {
+    getAll: async (page: number = 1, fullLoading: boolean = false): Promise<{
+        data: IRawEvent[],
+        meta: IMeta
+    }> => {
+        const loadingParam = fullLoading ? {
+            "pagination[page]": 1,
+            "pagination[pageSize]": 150
+        } : {};
+
+        const {data, meta} = await StrapiClient.find(EventRepository.type, page, {
             params: {
                 populate: "*",
+                sort: "date:desc",
+                ...loadingParam,
+                "pagination[pageSize]": 12
             }
         });
-        return {data}
+        return {data, meta}
     },
 
     getByID: async (id: string): Promise<{ data: IRawEvent }> => {
@@ -53,7 +65,8 @@ export const EventRepository = {
             params: {
                 populate: "*",
                 sort: "date:asc",
-                "filters[date][$gte]": date.toISOString()
+                "filters[date][$gte]": date.toISOString(),
+                "pagination[pageSize]": 4
             }
         });
         return {data}

@@ -2,11 +2,13 @@ import {IEvent, IEventDetail, IRawEvent} from "~/interfaces/event.interface";
 import {EventRepository} from "~/repositories/event.repository";
 import {EventFactory} from "~/factories/event.factory";
 import {MusicianService} from "~/services/musician.service";
+import {IMeta} from "~/interfaces/meta.interface";
 
 export const EventService = {
-    getAll: async (): Promise<IEvent[]> => {
-        const {data} = await EventRepository.getAll();
-        return data.map((rawEvent: IRawEvent) => EventFactory.fromRawEventToEvent(rawEvent));
+    getAll: async (page: number = 1): Promise<{ events: IEvent[], meta: IMeta }> => {
+        const {data, meta} = await EventRepository.getAll(page);
+        const events = data.map((rawEvent: IRawEvent) => EventFactory.fromRawEventToEvent(rawEvent));
+        return {events, meta}
     },
 
     getByID: async (id: string): Promise<IEventDetail> => {

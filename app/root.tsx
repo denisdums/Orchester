@@ -17,6 +17,7 @@ import Header from "~/components/templates/Header";
 import {IFeatureFlags} from "~/interfaces/featureFlags.interface";
 import PageProgress from "~/components/atoms/PageProgress/PageProgress";
 import {Toaster} from "~/components/ui/toaster";
+import Footer from "~/components/templates/Footer";
 
 export function links() {
   return [
@@ -82,6 +83,7 @@ export function Layout() {
       <main className="px-4 md:px-0 max-w-5xl mx-auto overflow-x-clip">
         <App/>
       </main>
+      <Footer/>
       <Toaster />
       <ScrollRestoration/>
       <Scripts/>

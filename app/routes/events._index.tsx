@@ -7,6 +7,7 @@ import {IUser} from "~/interfaces/user.interface";
 import {EventService} from "~/services/event.service";
 import Events from "~/pages/Events";
 import {IEvent} from "~/interfaces/event.interface";
+import {MusicianService} from "~/services/musician.service";
 
 export const meta: MetaFunction = () => {
     return [
@@ -28,12 +29,13 @@ export async function loader({request}: LoaderFunctionArgs) {
         throw new Response("Unauthorized", {status: 401});
     }
 
-    const events = await EventService.getAll();
+    const page = new URL(request.url).searchParams.get('page');
+    const {events, meta} = await EventService.getAll(parseInt(page || '1'));
 
-    return {user, events}
+    return {user, events, meta}
 }
 
 export default function Index() {
-    const {user, events} = useLoaderData() as { user: IUser, events: IEvent[] }
-    return <Events user={user} events={events}/>
+    const {user, events, meta} = useLoaderData() as { user: IUser, events: IEvent[] }
+    return <Events user={user} events={events} meta={meta}/>
 }

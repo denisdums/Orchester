@@ -6,9 +6,12 @@ import {
     PaginationLink, PaginationNext,
     PaginationPrevious
 } from "~/components/ui/pagination";
+import {useLocation} from "@remix-run/react";
+
 
 export default function StrapiPagination(props: { meta: IMeta }) {
     const {meta} = props;
+    const location = useLocation();
 
     if (!meta.pagination) return null;
 
@@ -50,12 +53,12 @@ export default function StrapiPagination(props: { meta: IMeta }) {
             <PaginationContent>
                 {previousPage > 0 && (
                     <PaginationItem>
-                        <PaginationPrevious to={`/musicians?page=${previousPage}`}/>
+                        <PaginationPrevious to={`${location.pathname}?page=${previousPage}`}/>
                     </PaginationItem>
                 )}
                 {!twoBeforeArray.includes(firstPageIndex) && (
                     <PaginationItem>
-                        <PaginationLink to={`/musicians?page=${firstPageIndex}`}
+                        <PaginationLink to={`${location.pathname}?page=${firstPageIndex}`}
                                         isActive={firstPageIndex === currentPage}>{firstPageIndex}</PaginationLink>
                     </PaginationItem>
                 )}
@@ -66,18 +69,18 @@ export default function StrapiPagination(props: { meta: IMeta }) {
                 )}
                 {twoBeforeArray && twoBeforeArray.map((index) => (
                     <PaginationItem key={index}>
-                        <PaginationLink to={`/musicians?page=${index}`}>{index}</PaginationLink>
+                        <PaginationLink to={`${location.pathname}?page=${index}`}>{index}</PaginationLink>
                     </PaginationItem>
                 ))}
                 {firstPageIndex !== currentPage && lastPageIndex !== currentPage && (
                     <PaginationItem>
-                        <PaginationLink to={`/musicians?page=${currentPage}`}
+                        <PaginationLink to={`${location.pathname}?page=${currentPage}`}
                                         isActive={true}>{currentPage}</PaginationLink>
                     </PaginationItem>
                 )}
                 {twoAfterArray && twoAfterArray.map((index) => (
                     <PaginationItem key={index}>
-                        <PaginationLink to={`/musicians?page=${index}`}>{index}</PaginationLink>
+                        <PaginationLink to={`${location.pathname}?page=${index}`}>{index}</PaginationLink>
                     </PaginationItem>
                 ))}
                 {needAfterEllipsis && (
@@ -87,13 +90,13 @@ export default function StrapiPagination(props: { meta: IMeta }) {
                 )}
                 {!twoAfterArray.includes(lastPageIndex) && (
                     <PaginationItem>
-                        <PaginationLink to={`/musicians?page=${lastPageIndex}`}
+                        <PaginationLink to={`${location.pathname}?page=${lastPageIndex}`}
                                         isActive={lastPageIndex === currentPage}>{lastPageIndex}</PaginationLink>
                     </PaginationItem>
                 )}
                 {pageCount > 1 && nextPage <= pageCount && (
                     <PaginationItem>
-                        <PaginationNext to={`/musicians?page=${nextPage}`}/>
+                        <PaginationNext to={`${location.pathname}?page=${nextPage}`}/>
                     </PaginationItem>
                 )}
             </PaginationContent>
