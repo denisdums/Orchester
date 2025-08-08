@@ -88,7 +88,12 @@ export default function Musician(props: MusicianProps) {
                                     </svg>
                                 </div>
                                 <div
-                                    className="absolute left-[8%] top-[10%] flex aspect-[5/6] w-[38%] justify-center rounded-lg border border-border bg-accent"></div>
+                                    className="absolute left-[8%] top-[10%] flex aspect-[5/6] w-[38%] justify-center rounded-lg border border-border bg-accent">
+                                    <img
+                                        src={props.musician.image}
+                                        alt={props.musician.full_name}
+                                        className="h-full w-full rounded-lg object-cover"/>
+                                </div>
                                 <div
                                     className="absolute right-[12%] top-[20%] flex aspect-square w-1/5 justify-center rounded-lg border border-border bg-accent"></div>
                                 <div
