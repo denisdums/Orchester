@@ -12,6 +12,7 @@ export interface IMusician {
     first_name: string,
     suit: IMusicianSuitItem[],
     editLink: string;
+    image: string;
     presences?: IEvent[],
 }
 

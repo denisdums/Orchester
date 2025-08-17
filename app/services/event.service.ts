@@ -1,4 +1,4 @@
-import {IEvent, IEventDetail, IRawEvent} from "~/interfaces/event.interface";
+import {IEvent, IEventDetail, IEventParams, IRawEvent} from "~/interfaces/event.interface";
 import {EventRepository} from "~/repositories/event.repository";
 import {EventFactory} from "~/factories/event.factory";
 import {MusicianService} from "~/services/musician.service";
@@ -38,8 +38,8 @@ export const EventService = {
         return EventService.getByID(data.id.toString());
     },
 
-    getPresencesByMusicianID: async (musicianID: string): Promise<IEvent[]> => {
-        const events = await EventRepository.getPresencesByMusicianID(musicianID);
+    getPresencesByMusicianID: async (musicianID: string, filters?: IEventParams[]): Promise<IEvent[]> => {
+        const events = await EventRepository.getPresencesByMusicianID(musicianID, filters);
         return events.map((rawEvent: IRawEvent) => EventFactory.fromRawEventToEvent(rawEvent));
     }
 }

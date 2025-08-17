@@ -1,12 +1,13 @@
 import {IEvent, IEventDetail, IEventResponse, IRawEvent} from "~/interfaces/event.interface";
 import {IMusician} from "~/interfaces/musician.interface";
+import {formatDate} from "~/lib/utils";
 
 export const EventFactory = {
     fromRawEventToEvent: (event: IRawEvent): IEvent => {
         return {
             id: event.id,
             title: event.attributes.title,
-            date: event.attributes.date,
+            date: formatDate(event.attributes.date),
             description: event.attributes.description,
             createdAt: event.attributes.createdAt,
             updatedAt: event.attributes.updatedAt,
@@ -21,7 +22,7 @@ export const EventFactory = {
         return {
             id: event.id,
             title: event.attributes.title,
-            date: event.attributes.date,
+            date: formatDate(event.attributes.date),
             description: event.attributes.description,
             createdAt: event.attributes.createdAt,
             updatedAt: event.attributes.updatedAt,
