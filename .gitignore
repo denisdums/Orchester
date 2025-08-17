@@ -1,4 +1,5 @@
 node_modules
+.idea
 ._DS_Store
 /.cache
 /build
