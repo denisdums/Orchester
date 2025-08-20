@@ -1,44 +1,31 @@
-import { Link } from "@remix-run/react";
 import {
     InstantSearch,
     Hits,
     Pagination,
-    Highlight,
     Configure,
     RefinementList,
     HitsPerPage,
     ClearRefinements,
     CurrentRefinements,
 } from "react-instantsearch";
-import { searchClient } from "~/db/MeiliSearch";
+import {searchClient} from "~/db/MeiliSearch";
+import MeilisearchMusicianListingHit from "~/components/molecules/MeilisearchMusicianListingHit";
+import {
+    CurrentRefinementsConnectorParamsItem
+} from "instantsearch.js/es/connectors/current-refinements/connectCurrentRefinements";
 
-const Hit = ({ hit }) => {
-    return (
-        <div className="p-4 border rounded mb-2">
-            <Link to={`/musicians/${hit.id}`}>
-                <h2 className="text-lg font-semibold">
-                    <Highlight attribute="full_name" hit={hit} />
-                </h2>
-                <p className="text-sm text-gray-600">
-                    <Highlight attribute="pupitre.title" hit={hit} />
-                </p>
-            </Link>
-        </div>
-    );
+const transformRefinements = (items: CurrentRefinementsConnectorParamsItem[]) => {
+    return items.map((item) => ({
+        ...item,
+        label: item.label.replace("pupitre.title", "Pupitre"),
+    }));
 };
 
-const TestListing = () => {
-    const transformItems = (items) => {
-        return items.map((item) => ({
-            ...item,
-            label: item.label.replace("pupitre.title", "Pupitre"),
-        }));
-    };
-
+export default function MeilisearchMusicianListing() {
     return (
         <div className="max-w-5xl mx-auto py-4">
             <InstantSearch indexName="fiche-information" searchClient={searchClient}>
-                <Configure query=" " />
+                <Configure query="*"/>
                 <div className="grid grid-cols-12 gap-4">
                     <div className="col-span-12 flex items-center justify-between">
                         <div>
@@ -48,13 +35,13 @@ const TestListing = () => {
                                     delete: "text-xs text-bold text-gray-500 ml-1 px-[3px] rounded-full bg-gray-100 hover:bg-gray-200 transition-colors",
                                     label: "hidden",
                                 }}
-                                transformItems={transformItems}
+                                transformItems={transformRefinements}
                             />
                         </div>
                         <HitsPerPage
                             items={[
-                                { label: "12 résultats par page", value: 12, default: true },
-                                { label: "24 résultats par page", value: 24 },
+                                {label: "24 résultats par page", value: 24, default: true},
+                                {label: "48 résultats par page", value: 48},
                             ]}
                         />
                     </div>
@@ -88,7 +75,7 @@ const TestListing = () => {
                     </div>
                     <div className="col-span-12 md:col-span-9">
                         <Hits
-                            hitComponent={Hit}
+                            hitComponent={MeilisearchMusicianListingHit}
                             classNames={{
                                 list: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-2",
                             }}
@@ -112,6 +99,4 @@ const TestListing = () => {
             </InstantSearch>
         </div>
     );
-};
-
-export default TestListing;
+}

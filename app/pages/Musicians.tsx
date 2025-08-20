@@ -1,7 +1,3 @@
-import { IMusician } from "~/interfaces/musician.interface";
-import MusiciansTable from "~/components/organisms/MusiciansTable";
-import StrapiPagination from "~/components/molecules/StrapiPagination";
-import StrapiListInfos from "~/components/molecules/StrapiListInfos";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -10,13 +6,9 @@ import {
     BreadcrumbSeparator,
 } from "~/components/ui/breadcrumb";
 import { Slash } from "lucide-react";
-import TestListing from "./TestListing";
+import MeilisearchMusicianListing from "../components/organisms/MeilisearchMusicianListing";
 
-export type MusiciansProps = {
-    musicians: IMusician[];
-    meta: Record<string, any>;
-};
-export default function Musicians(props: MusiciansProps) {
+export default function Musicians() {
     return (
         <>
             <Breadcrumb className="pb-12">
@@ -30,14 +22,7 @@ export default function Musicians(props: MusiciansProps) {
                     <BreadcrumbItem>Liste des musiciens</BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-
-            <TestListing />
-
-            {/* <div className="flex flex-col gap-10">
-                <StrapiListInfos meta={props.meta}/>
-                <MusiciansTable musicians={props.musicians}/>
-                <StrapiPagination meta={props.meta}/>
-            </div> */}
+            <MeilisearchMusicianListing />
         </>
     );
 }

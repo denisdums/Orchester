@@ -1,5 +1,5 @@
 import { InstantSearch, SearchBox, Hits, useInstantSearch, Index } from "react-instantsearch";
-import { Link } from "@remix-run/react";
+import {Link, useLocation} from "@remix-run/react";
 import { ChangeEvent, createRef, RefObject, useEffect, useState } from "react";
 import classname from "classnames";
 import OpenIcon from "~/components/atoms/OpenIcon";
@@ -16,10 +16,18 @@ export default function SearchBar() {
 }
 
 const SearchComponent = () => {
+    const location = useLocation()
     const [query, setQuery] = useState("");
     const [isResultsVisible, setIsResultsVisible] = useState(false);
-    const { setUiState } = useInstantSearch();
     const inputRef: RefObject<HTMLFormElement> = createRef();
+
+    useEffect(() => {
+        setQuery("");
+        setIsResultsVisible(false);
+        if (inputRef.current) {
+            inputRef.current.reset();
+        }
+    }, [location.key]);
 
     function handleInput(e: ChangeEvent<HTMLInputElement>) {
         setQuery(e.target.value);
@@ -28,30 +36,16 @@ const SearchComponent = () => {
     function handleReset() {
         setQuery("");
         setIsResultsVisible(false);
-        setUiState({ musician: { query: "" } });
-    }
-
-    function handleKeyDown(e: KeyboardEvent) {
-        if ((e.ctrlKey || e.metaKey) && e.key === "k") {
-            inputRef.current?.querySelector("input")?.focus();
-        }
-        if (e.key === "Escape") {
-            inputRef.current?.querySelector("input")?.blur();
-        }
     }
 
     useEffect(() => {
         setIsResultsVisible(query.length > 0);
-
-        document.addEventListener("keydown", handleKeyDown);
-        return () => {
-            document.removeEventListener("keydown", handleKeyDown);
-        };
     }, [query]);
 
     return (
         <>
             <SearchBox
+                searchAsYouType={true}
                 onInput={handleInput}
                 formRef={inputRef}
                 placeholder={"Rechercher un musicien, un événement..."}
@@ -66,7 +60,7 @@ const SearchComponent = () => {
             />
             <div
                 className={classname(
-                    "transition-all absolute top-full bg-white mt-4 w-full  rounded drop-shadow-xl max-h-96 overflow-y-scroll primary-scrollbar",
+                    "transition-all absolute top-full bg-white mt-4 w-full  rounded drop-shadow-xl max-h-96 overflow-y-scroll primary-scrollbar p-2",
                     {
                         "invisible translate-y-12 opacity-0 p-2": !isResultsVisible,
                     }

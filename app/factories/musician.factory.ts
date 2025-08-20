@@ -19,7 +19,7 @@ export const MusicianFactory = {
             updatedAt: infos.attributes.updatedAt,
             full_name: infos.attributes.full_name,
             first_name: infos.attributes.full_name.split(" ")[0] || infos.attributes.full_name,
-            image: MusicianFactory.getMusicianImageUrlFromRawSheetInfos(infos),
+            image: MusicianFactory.getMusicianImageUrlFromRawFullName(infos.attributes.full_name),
             suit: MusicianFactory.formRawSuitTypesToMusicianSuitItems(infos.attributes.suit),
             editLink: process.env.STRAPI_URL_BASE + "/admin/content-manager/collectionType/api::fiche-information.fiche-information/" + infos.id,
             presences: presences
@@ -71,8 +71,12 @@ export const MusicianFactory = {
         });
     },
 
-    getMusicianImageUrlFromRawSheetInfos(infos: IRawSheetInfos): string {
-        const name = infos.attributes.full_name
+    getMusicianImageUrlFromRawFullName(full_name: string): string {
+        if (!full_name) {
+            return '/images/photos/default.png';
+        }
+
+        const name = full_name
             .normalize('NFD')
             .replace(/[\u0300-\u036f]/g, '')
             .toLowerCase()

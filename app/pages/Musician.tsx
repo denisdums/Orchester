@@ -80,9 +80,9 @@ export default function Musician(props: MusicianProps) {
             <div className="flex flex-col gap-10 pb-32">
                 <section>
                     <div className="container">
-                        <div className="grid items-center gap-8 lg:grid-cols-2">
+                        <div className="grid items-center gap-8 lg:grid-cols-12">
                             <div
-                                className="flex flex-col items-center py-32 text-center lg:mx-auto lg:items-start lg:px-0 lg:text-left">
+                                className="flex flex-col items-center py-32 text-center lg:mx-auto lg:items-start lg:px-0 lg:text-left lg:col-span-7">
                                 <h1 className="my-6 text-pretty text-4xl font-bold lg:text-6xl">
                                     {props.musician.full_name}
                                 </h1>
@@ -101,7 +101,7 @@ export default function Musician(props: MusicianProps) {
                                     </Button>
                                 </div>
                             </div>
-                            <div className="hidden md:block relative aspect-[3/4]">
+                            <div className="hidden md:block relative aspect-[3/4] lg:col-span-5">
                                 <div className="absolute inset-0 flex items-center justify-center">
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
