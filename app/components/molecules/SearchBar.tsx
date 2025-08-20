@@ -1,15 +1,15 @@
-import { InstantSearch, SearchBox, Hits, useInstantSearch, Index } from "react-instantsearch";
+import {InstantSearch, SearchBox, Hits, Index} from "react-instantsearch";
 import {Link, useLocation} from "@remix-run/react";
-import { ChangeEvent, createRef, RefObject, useEffect, useState } from "react";
+import {ChangeEvent, createRef, RefObject, useEffect, useState} from "react";
 import classname from "classnames";
 import OpenIcon from "~/components/atoms/OpenIcon";
-import { searchClient } from "~/db/MeiliSearch";
+import {searchClient} from "~/db/MeiliSearch";
 
 export default function SearchBar() {
     return (
         <div className="relative w-full max-w-sm z-50">
             <InstantSearch indexName="fiche-information" searchClient={searchClient}>
-                <SearchComponent />
+                <SearchComponent/>
             </InstantSearch>
         </div>
     );
@@ -67,17 +67,17 @@ const SearchComponent = () => {
                 )}
             >
                 <Index indexName="fiche-information">
-                    <Hits hitComponent={Hit} onClick={handleReset} />
+                    <Hits hitComponent={Hit} onClick={handleReset}/>
                 </Index>
                 <Index indexName="event">
-                    <Hits hitComponent={Hit} onClick={handleReset} />
+                    <Hits hitComponent={Hit} onClick={handleReset}/>
                 </Index>
             </div>
         </>
     );
 };
 
-const Hit = ({ hit }: any) => {
+const Hit = ({hit}: any) => {
     const hitType = hit._meilisearch_id.split("-").shift();
     if (hitType === "fiche") {
         return (
@@ -88,7 +88,7 @@ const Hit = ({ hit }: any) => {
                 <span>
                     {hit.full_name} {hit.Nom}
                 </span>
-                <OpenIcon className="w-4 text-primary opacity-0 group-focus:opacity-100 group-hover:opacity-100" />
+                <OpenIcon className="w-4 text-primary opacity-0 group-focus:opacity-100 group-hover:opacity-100"/>
             </Link>
         );
     }
@@ -100,7 +100,7 @@ const Hit = ({ hit }: any) => {
                 className="px-8 p-4 focus:ring-primary focus:bg-primary/5 hover:bg-primary/5 rounded flex items-center justify-between group"
             >
                 <span>{hit.title}</span>
-                <OpenIcon className="w-4 text-primary opacity-0 group-focus:opacity-100 group-hover:opacity-100" />
+                <OpenIcon className="w-4 text-primary opacity-0 group-focus:opacity-100 group-hover:opacity-100"/>
             </Link>
         );
     }
