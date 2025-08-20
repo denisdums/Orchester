@@ -59,3 +59,8 @@ export type IEventResponse = {
     isPresent: boolean,
     musician: IMusician
 }
+
+export type IEventParams = {
+    key: string,
+    value: string
+}

@@ -4,6 +4,7 @@ import {IMeta} from "~/interfaces/meta.interface";
 import {SheetInfosRepository} from "~/repositories/sheetInfos.repository";
 import {IRawSheetInfos} from "~/interfaces/sheetInfos.interface";
 import {EventService} from "~/services/event.service";
+import {IEventParams} from "~/interfaces/event.interface";
 
 export const MusicianService = {
     getAll: async (page: number = 1): Promise<{ musicians: IMusician[], meta: IMeta }> => {
@@ -16,9 +17,9 @@ export const MusicianService = {
         return {musicians, meta}
     },
 
-    getByID: async (id: string): Promise<IMusician> => {
+    getByID: async (id: string, filters?: IEventParams[]): Promise<IMusician> => {
         const {data} = await SheetInfosRepository.getByID(id);
-        const presences = await EventService.getPresencesByMusicianID(id);
+        const presences = await EventService.getPresencesByMusicianID(id, filters);
         return MusicianFactory.fromRawSheetInfosToMusician(data, presences);
     },
 

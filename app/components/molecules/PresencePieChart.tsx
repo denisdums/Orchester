@@ -1,8 +1,6 @@
 "use client"
 
-import * as React from "react"
 import {Label, Legend, Pie, PieChart} from "recharts"
-import {Card, CardContent, CardHeader, CardTitle} from "~/components/ui/card"
 import {ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent} from "~/components/ui/chart"
 import {IPupitreCount} from "~/interfaces/event.interface";
 import {H3} from "~/components/ui/typography";
@@ -12,21 +10,18 @@ export type PresencePieChartProps = {
 }
 
 export default function PresencePieChart({pupitreCounts}: PresencePieChartProps) {
-
-    //color with tone of black
     const colors = [
-        "hsl(0, 0%, 0%)",
-        "hsl(0, 0%, 10%)",
-        "hsl(0, 0%, 20%)",
-        "hsl(0, 0%, 30%)",
-        "hsl(0, 0%, 40%)",
-        "hsl(0, 0%, 50%)",
-        "hsl(0, 0%, 60%)",
-        "hsl(0, 0%, 70%)",
-        "hsl(0, 0%, 80%)",
-        "hsl(0, 0%, 90%)",
+        "hsl(217, 89%, 61%)",
+        "hsl(4, 77%, 56%)",
+        "hsl(145, 63%, 46%)",
+        "hsl(45, 95%, 54%)",
+        "hsl(267, 89%, 61%)",
+        "hsl(14, 88%, 54%)",
+        "hsl(184, 55%, 53%)",
+        "hsl(27, 100%, 51%)",
+        "hsl(152, 77%, 34%)",
+        "hsl(291, 47%, 51%)",
     ]
-
 
     const chartData = pupitreCounts.map((pupitreCount, index) => {
         return {name: pupitreCount.title, count: pupitreCount.count, fill: colors[index]}

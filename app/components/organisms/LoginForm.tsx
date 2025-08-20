@@ -22,7 +22,7 @@ export default function LoginForm({error = undefined, onModal}: { error?: string
 
 
                 <div className="flex flex-col gap-4">
-                    <Card className={classNames('mx-auto w-full max-w-md', {'border-0': onModal})}>
+                    <Card className={classNames('mx-auto w-full max-w-md', {'border-0 shadow-none': onModal})}>
                         <CardHeader className="items-center">
                             <UserRound className="size-10 rounded-full bg-accent p-2.5 text-muted-foreground"/>
                             <CardTitle className="text-xl">Connexion</CardTitle>

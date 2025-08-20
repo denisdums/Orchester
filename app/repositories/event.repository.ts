@@ -1,5 +1,5 @@
 import {StrapiClient} from "~/db/Strapi";
-import {IRawEvent} from "~/interfaces/event.interface";
+import {IEventParams, IRawEvent} from "~/interfaces/event.interface";
 import {IMeta} from "~/interfaces/meta.interface";
 
 export const EventRepository = {
@@ -72,11 +72,25 @@ export const EventRepository = {
         return {data}
     },
 
-    getPresencesByMusicianID: async (musicianID: string): Promise<IRawEvent[]> => {
+    getPresencesByMusicianID: async (musicianID: string, filters?: IEventParams[]): Promise<IRawEvent[]> => {
+        const params = {
+            populate: "*",
+            "filters[musician_presences][id][$eq]": musicianID,
+        }
+
+        const additionalFilters = {}
+
+        if (filters && filters.length > 0) {
+            filters.forEach(filter => {
+                // @ts-expect-error no-type
+                additionalFilters[`${filter.key}`] = filter.value;
+            });
+        }
+
         const {data} = await StrapiClient.find(EventRepository.type, 1, {
             params: {
-                populate: "*",
-                "filters[musician_presences][id][$eq]": musicianID
+                ...params,
+                ...additionalFilters,
             }
         });
         return data

@@ -3,6 +3,7 @@ import {LoaderFunctionArgs, useLoaderData} from "react-router";
 import {MusicianService} from "~/services/musician.service";
 import {IMusician} from "~/interfaces/musician.interface";
 import Musician from "~/pages/Musician";
+import {IEventParams} from "~/interfaces/event.interface";
 
 export const meta: MetaFunction = () => {
     return [
@@ -11,15 +12,40 @@ export const meta: MetaFunction = () => {
     ];
 };
 
-export async function loader({params}: LoaderFunctionArgs) {
+export async function loader({request, params}: LoaderFunctionArgs) {
     if (!params.id) {
         throw new Response("No ID provided", {status: 400});
     }
-    const musician = await MusicianService.getByID(params.id);
-    return {musician}
+
+    const searchParams = new URL(request.url).searchParams;
+    const startDate = searchParams.get('startDate');
+    const endDate = searchParams.get('endDate');
+
+    const filters: IEventParams[] = [
+        {
+            key: 'sort',
+            value: 'date:desc',
+        },
+        {
+            key: 'pagination[pageSize]',
+            value: '100',
+        }
+    ];
+
+    if (startDate) {
+        filters.push({key: 'filters[date][$gt]', value: new Date(startDate).toISOString()});
+    }
+
+    if (endDate) {
+        filters.push({key: 'filters[date][$lt]', value: new Date(endDate).toISOString()});
+    }
+
+    const musician = await MusicianService.getByID(params.id, filters);
+
+    return {musician, startDate, endDate};
 }
 
 export default function Index() {
-    const {musician} = useLoaderData() as { musician: IMusician };
-    return <Musician musician={musician}/>;
+    const {musician, startDate, endDate} = useLoaderData() as { musician: IMusician, startDate?: string, endDate?: string };
+    return <Musician musician={musician} startDate={startDate} endDate={endDate}/>;
 }
