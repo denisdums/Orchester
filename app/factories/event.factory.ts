@@ -17,7 +17,7 @@ export const EventFactory = {
     fromRawEventToEventDetails: (
         event: IRawEvent,
         musiciansPresences: IMusician[],
-        musiciansResponses: IEventResponse[]
+        musiciansExcuses: IMusician[],
     ): IEventDetail => {
         return {
             id: event.id,
@@ -27,7 +27,7 @@ export const EventFactory = {
             createdAt: event.attributes.createdAt,
             updatedAt: event.attributes.updatedAt,
             presences: musiciansPresences,
-            responses: musiciansResponses,
+            excuses: musiciansExcuses,
         }
     },
 }

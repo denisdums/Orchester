@@ -12,7 +12,7 @@ export default function EventCard(props: EventSquareCardProps) {
     const {event} = props;
 
     return (
-        <Card>
+        <Card className="relative hover:shadow-lg transition-shadow">
             <CardHeader>
                 <CardTitle>{event.title}</CardTitle>
                 <CardDescription>{event.date}</CardDescription>
@@ -20,13 +20,9 @@ export default function EventCard(props: EventSquareCardProps) {
             <CardContent>
                 <p>{event.description}</p>
             </CardContent>
-            <CardFooter>
-                <Button asChild={true}>
-                    <Link to={'/events/' + event.id}>
-                        Voir l'évènement
-                    </Link>
-                </Button>
-            </CardFooter>
+            <Link to={'/events/' + event.id}
+                  className="after:absolute  after:top-0 after:left-0 after:w-full after:h-full">
+            </Link>
         </Card>
 
     )

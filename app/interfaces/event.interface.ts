@@ -10,6 +10,9 @@ export interface IRawEvent {
         updatedAt: string,
         musician_presences: {
             data: IRawEventMusician[]
+        }
+        musician_excuses: {
+            data: IRawEventMusician[]
         },
         musician_responses: IRawEventResponse[]
     }
@@ -32,7 +35,7 @@ export interface IEventDetail {
     createdAt: string,
     updatedAt: string,
     presences: IMusician[],
-    responses: IEventResponse[],
+    excuses: IMusician[],
 }
 
 export type IPupitreCount = {

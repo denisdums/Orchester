@@ -17,7 +17,7 @@ export default function Header() {
                     <UserStatus/>
                 </div>
                 {user && user.role.type === "comite" && (
-                    <div className='w-full flex items-center justify-center bg-primary/5 p-4 rounded'>
+                    <div className='w-full flex items-center justify-center bg-muted/50 p-4 rounded'>
                         <SearchBar/>
                     </div>
                 )}

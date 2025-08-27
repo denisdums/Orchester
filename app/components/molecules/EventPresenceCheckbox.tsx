@@ -1,25 +1,38 @@
 import {IMusician} from "~/interfaces/musician.interface";
 import {Card, CardContent} from "~/components/ui/card";
 import {Checkbox} from "~/components/ui/checkbox";
-import {PropsWithoutRef} from "react";
+import {PropsWithoutRef, useState} from "react";
 
 export type EventPresenceCheckboxProps = PropsWithoutRef<{
     musician: IMusician,
-    isChecked: boolean
+    initialValue: EventPresenceCheckboxInitialValue
 }>
-export default function EventPresenceCheckbox({musician, isChecked}: EventPresenceCheckboxProps) {
+
+export type EventPresenceCheckboxInitialValue = "excuse" | "presence" | null;
+
+export default function EventPresenceCheckbox({musician, initialValue = null}: EventPresenceCheckboxProps) {
+    const [selected, setSelected] = useState<"excuse" | "presence" | null>(initialValue);
+
     return (
         <Card className="relative">
-            <CardContent className="pt-6 flex items-center gap-4">
-                <Checkbox id={musician.id.toString()} defaultChecked={isChecked} value={musician.id} name="presence"
-                          className="h-6 w-6"/>
-                <label
-                    htmlFor={musician.id.toString()}
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70
-                    after:block after:absolute after:top-0 after:left-0 after:w-full after:h-full cursor-pointer"
-                >
+            <CardContent className="pt-6 flex-col-reverse flex md:flex-row items-center gap-4">
+                <div className="flex items-center gap-1">
+                    <Checkbox checked={selected === "excuse"}
+                              onCheckedChange={(v) => setSelected(v ? "excuse" : null)}
+                              defaultChecked={selected === "excuse"} value={musician.id} name="excuse" className="h-6 w-6
+                     border-[#f59e0b] data-[state=checked]:bg-[#f59e0b] data-[state=checked]:text-[#ffffff]"/>
+                    <div className="h-6 w-6 shrink-0 rounded-sm shadow flex items-center justify-center bg-muted text-muted-foreground">
+                        /
+                    </div>
+                    <Checkbox checked={selected === "presence"}
+                              onCheckedChange={(v) => setSelected(v ? "presence" : null)}
+                              defaultChecked={selected === "presence"}
+                              value={musician.id}
+                              name="presence" className="h-6 w-6 border-[#16a34a] data-[state=checked]:bg-[#16a34a] data-[state=checked]:text-[#ffffff]"/>
+                </div>
+                <p className="text-sm font-medium leading-none">
                     {musician.full_name}
-                </label>
+                </p>
             </CardContent>
         </Card>
     )

@@ -1,5 +1,5 @@
-import {IMusicianGroup} from "~/interfaces/musician.interface";
-import EventPresenceCheckbox from "~/components/molecules/EventPresenceCheckbox";
+import {IMusician, IMusicianGroup} from "~/interfaces/musician.interface";
+import EventPresenceCheckbox, {EventPresenceCheckboxInitialValue} from "~/components/molecules/EventPresenceCheckbox";
 import {Form, useRevalidator} from "@remix-run/react";
 import {useEventPresenceForm} from "~/hooks/useEventPresenceForm";
 import {IEventDetail} from "~/interfaces/event.interface";
@@ -53,7 +53,7 @@ export default function EventPresencesForm({musicianGroups, event}: EventPresenc
                             {group.musicians.map((musician, index) => (
                                 <EventPresenceCheckbox key={index}
                                                        musician={musician}
-                                                       isChecked={!!event.presences.find((presence) => presence.id === musician.id)}/>
+                                                       initialValue={getMusicianInitialValue(musician, event)}/>
                             ))}
                         </div>
                     </div>
@@ -67,4 +67,15 @@ export default function EventPresencesForm({musicianGroups, event}: EventPresenc
             </div>
         </Form>
     )
+}
+
+const getMusicianInitialValue = (musician: IMusician, event: IEventDetail): EventPresenceCheckboxInitialValue => {
+    if (event.presences?.find((presence) => presence.id === musician.id)) {
+        return "presence";
+    }
+    else if (event.excuses?.find((excuse) => excuse.id === musician.id)) {
+        return "excuse";
+    }
+
+    return null;
 }

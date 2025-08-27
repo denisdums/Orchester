@@ -33,9 +33,10 @@ export const EventRepository = {
         return {data};
     },
 
-    savePresences: async (eventID: string, presences: string[]): Promise<{ data: IRawEvent }> => {
+    savePointing: async (eventID: string, presences: string[], excuses: string[]): Promise<{ data: IRawEvent }> => {
         const {data} = await StrapiClient.update(EventRepository.type, eventID.toString(), {
-            "musician_presences": presences
+            "musician_presences": presences,
+            "musician_excuses": excuses
         })
         return {data};
     },

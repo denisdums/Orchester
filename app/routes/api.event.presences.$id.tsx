@@ -14,10 +14,11 @@ export async function action({request, params}: ActionFunctionArgs) {
     }
     const body = await request.formData();
     const presencesIds = body.getAll('presence') as string[];
+    const excusesIds = body.getAll('excuse') as string[];
 
     let success, event;
     try {
-        event = await EventService.savePresences(params.id, presencesIds);
+        event = await EventService.savePointing(params.id, presencesIds, excusesIds);
         success = true;
     } catch (e) {
         success = false;

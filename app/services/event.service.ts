@@ -13,14 +13,15 @@ export const EventService = {
 
     getByID: async (id: string): Promise<IEventDetail> => {
         const {data} = await EventRepository.getByID(id);
+
         const musicianPresences = await Promise.all(data.attributes.musician_presences.data.map(({id}) => {
             return MusicianService.getByID(id.toString());
         }))
-        const musicianResponses = await Promise.all(data.attributes.musician_responses.map(async (data) => {
-            const musician = await MusicianService.getByID(data.id.toString());
-            return {isPresent: data.presence, musician: musician};
+        const musicianExcuses = await Promise.all(data.attributes.musician_excuses.data.map(({id}) => {
+            return MusicianService.getByID(id.toString());
         }))
-        return EventFactory.fromRawEventToEventDetails(data, musicianPresences, musicianResponses);
+
+        return EventFactory.fromRawEventToEventDetails(data, musicianPresences, musicianExcuses);
     },
 
     getNextEvents: async (): Promise<IEvent[]> => {
@@ -28,8 +29,8 @@ export const EventService = {
         return data.map((rawEvent: IRawEvent) => EventFactory.fromRawEventToEvent(rawEvent));
     },
 
-    savePresences: async (eventID: string, presences: string[]): Promise<IEventDetail> => {
-        const {data} = await EventRepository.savePresences(eventID, presences);
+    savePointing: async (eventID: string, presences: string[], excuses: string[]): Promise<IEventDetail> => {
+        const {data} = await EventRepository.savePointing(eventID, presences, excuses);
         return EventService.getByID(data.id.toString());
     },
 

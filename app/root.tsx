@@ -80,7 +80,7 @@ export function Layout() {
     <GlobalProvider data={data}>
       <Header/>
       <PageProgress/>
-      <main className="px-4 md:px-0 max-w-5xl mx-auto overflow-x-clip">
+      <main className="px-4 md:px-0 max-w-5xl mx-auto">
         <App/>
       </main>
       <Footer/>

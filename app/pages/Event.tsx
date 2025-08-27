@@ -22,8 +22,6 @@ export type EventProps = {
     musicianGroups: IMusicianGroup[]
 }
 export default function Event({user, event, musicianGroups}: EventProps) {
-    const {flags} = useFeatureFlags();
-
 
     return (
         <>
