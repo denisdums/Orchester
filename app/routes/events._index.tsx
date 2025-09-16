@@ -7,7 +7,7 @@ import {IUser} from "~/interfaces/user.interface";
 import {EventService} from "~/services/event.service";
 import Events from "~/pages/Events";
 import {IEvent} from "~/interfaces/event.interface";
-import {MusicianService} from "~/services/musician.service";
+import {IMeta} from "~/interfaces/meta.interface";
 
 export const meta: MetaFunction = () => {
     return [
@@ -36,6 +36,6 @@ export async function loader({request}: LoaderFunctionArgs) {
 }
 
 export default function Index() {
-    const {user, events, meta} = useLoaderData() as { user: IUser, events: IEvent[] }
+    const {user, events, meta} = useLoaderData() as { user: IUser, events: IEvent[], meta: IMeta }
     return <Events user={user} events={events} meta={meta}/>
 }

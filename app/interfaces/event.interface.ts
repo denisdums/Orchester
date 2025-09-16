@@ -14,7 +14,6 @@ export interface IRawEvent {
         musician_excuses: {
             data: IRawEventMusician[]
         },
-        musician_responses: IRawEventResponse[]
     }
 }
 
@@ -22,9 +21,12 @@ export interface IEvent {
     id: number
     title: string,
     date: string,
+    rawDate: string,
     description: string,
     createdAt: string,
     updatedAt: string,
+    presences: number[],
+    excuses: number[],
 }
 
 export interface IEventDetail {
@@ -51,19 +53,4 @@ export type IRawEventMusician = {
         full_name: string,
         birth_date: string
     }
-}
-
-export type IRawEventResponse = {
-    id: number,
-    presence: boolean,
-}
-
-export type IEventResponse = {
-    isPresent: boolean,
-    musician: IMusician
-}
-
-export type IEventParams = {
-    key: string,
-    value: string
 }

@@ -1,10 +1,11 @@
 import {StrapiClient} from "~/db/Strapi";
-import {IEventParams, IRawEvent} from "~/interfaces/event.interface";
+import {IRawEvent} from "~/interfaces/event.interface";
 import {IMeta} from "~/interfaces/meta.interface";
+import {IStrapiParams} from "~/interfaces/strapi.interface";
 
 export const EventRepository = {
     type: "events",
-    getAll: async (page: number = 1, fullLoading: boolean = false): Promise<{
+    getAll: async (page: number = 1, fullLoading: boolean = false, filters?: IStrapiParams[]): Promise<{
         data: IRawEvent[],
         meta: IMeta
     }> => {
@@ -12,13 +13,23 @@ export const EventRepository = {
             "pagination[page]": 1,
             "pagination[pageSize]": 150
         } : {};
+        const additionalFilters = {}
+
+        if (filters && filters.length > 0) {
+            filters.forEach(filter => {
+                // @ts-expect-error no-type
+                additionalFilters[`${filter.key}`] = filter.value;
+            });
+        }
+
 
         const {data, meta} = await StrapiClient.find(EventRepository.type, page, {
             params: {
                 populate: "*",
-                sort: "date:desc",
+                sort: "date:asc",
+                "pagination[pageSize]": 12,
                 ...loadingParam,
-                "pagination[pageSize]": 12
+                ...additionalFilters
             }
         });
         return {data, meta}
@@ -41,24 +52,6 @@ export const EventRepository = {
         return {data};
     },
 
-    saveResponse: async (eventID: string, userId: string, response: boolean): Promise<{ data: IRawEvent }> => {
-        const strapiEvent = await EventRepository.getByID(eventID);
-        const responses = strapiEvent.data.attributes.musician_responses;
-        const index = responses.findIndex((response) => response.id.toString() === userId);
-        if (index !== -1) responses.splice(index, 1);
-
-        responses.push({
-            id: parseInt(userId),
-            presence: response
-        });
-
-        const {data} = await StrapiClient.update(EventRepository.type, eventID.toString(), {
-            "musician_responses": responses
-        })
-
-        return {data};
-    },
-
     getNextEvents: async (): Promise<{ data: IRawEvent[] }> => {
         const date = new Date();
         date.setHours(0, 0, 0, 0);
@@ -73,7 +66,7 @@ export const EventRepository = {
         return {data}
     },
 
-    getPresencesByMusicianID: async (musicianID: string, filters?: IEventParams[]): Promise<IRawEvent[]> => {
+    getPresencesByMusicianID: async (musicianID: string, filters?: IStrapiParams[]): Promise<IRawEvent[]> => {
         const params = {
             populate: "*",
             "filters[musician_presences][id][$eq]": musicianID,

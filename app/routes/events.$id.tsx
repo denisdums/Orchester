@@ -1,5 +1,5 @@
 import type {MetaFunction} from "@remix-run/node";
-import {LoaderFunctionArgs, useLoaderData} from "react-router";
+import {LoaderFunctionArgs, ShouldRevalidateFunction, useLoaderData} from "react-router";
 import {IUser} from "~/interfaces/user.interface";
 import Event from "~/pages/Event";
 import {IEventDetail} from "~/interfaces/event.interface";
@@ -23,7 +23,14 @@ export const meta: MetaFunction = ({data}: any) => {
     ];
 };
 
-export async function loader({params, request   }: LoaderFunctionArgs) {
+export const shouldRevalidate: ShouldRevalidateFunction = (args) => {
+    if (args.formMethod?.toLowerCase() === "post" && args.formAction?.startsWith("/api/event/presences/")) {
+        return false;
+    }
+    return args.defaultShouldRevalidate;
+};
+
+export async function loader({params, request}: LoaderFunctionArgs) {
     const {isLoggedIn, userId, userJwt} = await SessionService.isUserLoggedIn(request);
 
     if (!isLoggedIn || !userId || !userJwt) {
@@ -45,6 +52,6 @@ export default function Index() {
     const loaderData = useLoaderData() as EventLoaderData;
 
     return <Event user={loaderData.user}
-               event={loaderData.event}
-               musicianGroups={loaderData.musicianGroups}/>
+                  event={loaderData.event}
+                  musicianGroups={loaderData.musicianGroups}/>
 }

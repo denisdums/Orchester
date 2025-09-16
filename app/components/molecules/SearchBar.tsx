@@ -4,6 +4,8 @@ import {ChangeEvent, createRef, RefObject, useEffect, useState} from "react";
 import classname from "classnames";
 import OpenIcon from "~/components/atoms/OpenIcon";
 import {searchClient} from "~/db/MeiliSearch";
+import {MusicianHitFactory} from "~/factories/musician-hit.factory";
+import {Avatar, AvatarFallback, AvatarImage} from "~/components/ui/avatar";
 
 export default function SearchBar() {
     return (
@@ -80,26 +82,43 @@ const SearchComponent = () => {
 const Hit = ({hit}: any) => {
     const hitType = hit._meilisearch_id.split("-").shift();
     if (hitType === "fiche") {
+        const musicianHit = MusicianHitFactory.fromRawMusicianHitToMusicianHit(hit)
+
         return (
             <Link
-                to={`/musicians/${hit.id}`}
+                to={`/musicians/${musicianHit.id}`}
                 className="px-8 p-4 focus:ring-primary focus:bg-primary/5 hover:bg-primary/5 rounded flex items-center justify-between group"
             >
-                <span>
-                    {hit.full_name} {hit.Nom}
+                <div className="flex items-center gap-4">
+                    <Avatar className="w-8 h-8">
+                        <AvatarImage src={musicianHit.image}/>
+                        <AvatarFallback>{musicianHit.initials}</AvatarFallback>
+                    </Avatar>
+                    <span>
+                    {musicianHit.full_name} {musicianHit.Nom}
                 </span>
+                </div>
                 <OpenIcon className="w-4 text-primary opacity-0 group-focus:opacity-100 group-hover:opacity-100"/>
             </Link>
         );
     }
 
     if (hitType === "event") {
+        const date = new Date(hit.date);
+        const formattedDate = date.toLocaleDateString("fr-FR", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "2-digit"
+        });
         return (
             <Link
                 to={`/events/${hit.id}`}
                 className="px-8 p-4 focus:ring-primary focus:bg-primary/5 hover:bg-primary/5 rounded flex items-center justify-between group"
             >
-                <span>{hit.title}</span>
+                <div className="flex items-center gap-4">
+                    <span className="text-xs">{formattedDate}</span>
+                    <span>{hit.title}</span>
+                </div>
                 <OpenIcon className="w-4 text-primary opacity-0 group-focus:opacity-100 group-hover:opacity-100"/>
             </Link>
         );

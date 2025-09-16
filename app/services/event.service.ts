@@ -1,12 +1,19 @@
-import {IEvent, IEventDetail, IEventParams, IRawEvent} from "~/interfaces/event.interface";
+import {IEvent, IEventDetail, IRawEvent} from "~/interfaces/event.interface";
 import {EventRepository} from "~/repositories/event.repository";
 import {EventFactory} from "~/factories/event.factory";
 import {MusicianService} from "~/services/musician.service";
 import {IMeta} from "~/interfaces/meta.interface";
+import {IStrapiParams} from "~/interfaces/strapi.interface";
 
 export const EventService = {
     getAll: async (page: number = 1): Promise<{ events: IEvent[], meta: IMeta }> => {
         const {data, meta} = await EventRepository.getAll(page);
+        const events = data.map((rawEvent: IRawEvent) => EventFactory.fromRawEventToEvent(rawEvent));
+        return {events, meta}
+    },
+
+    getAllForTable: async (filters?: IStrapiParams[]): Promise<{ events: IEvent[], meta: IMeta }> => {
+        const {data, meta} = await EventRepository.getAll(1, true, filters);
         const events = data.map((rawEvent: IRawEvent) => EventFactory.fromRawEventToEvent(rawEvent));
         return {events, meta}
     },
@@ -29,17 +36,12 @@ export const EventService = {
         return data.map((rawEvent: IRawEvent) => EventFactory.fromRawEventToEvent(rawEvent));
     },
 
-    savePointing: async (eventID: string, presences: string[], excuses: string[]): Promise<IEventDetail> => {
+    savePointing: async (eventID: string, presences: string[], excuses: string[]): Promise<boolean> => {
         const {data} = await EventRepository.savePointing(eventID, presences, excuses);
-        return EventService.getByID(data.id.toString());
+        return !!data
     },
 
-    saveResponse: async (eventID: string, userId: string, response: boolean): Promise<IEventDetail> => {
-        const {data} = await EventRepository.saveResponse(eventID, userId, response);
-        return EventService.getByID(data.id.toString());
-    },
-
-    getPresencesByMusicianID: async (musicianID: string, filters?: IEventParams[]): Promise<IEvent[]> => {
+    getPresencesByMusicianID: async (musicianID: string, filters?: IStrapiParams[]): Promise<IEvent[]> => {
         const events = await EventRepository.getPresencesByMusicianID(musicianID, filters);
         return events.map((rawEvent: IRawEvent) => EventFactory.fromRawEventToEvent(rawEvent));
     }

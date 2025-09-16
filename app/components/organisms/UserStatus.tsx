@@ -49,6 +49,9 @@ export function UserStatus() {
                             <Link to={"/events"}>Evènements</Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem>
+                            <Link to={"/events/table"}>Récapitulatif des évènements</Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
                             <Link to={"/logout"}>Se déconnecter</Link>
                         </DropdownMenuItem>
                     </DropdownMenuContent>

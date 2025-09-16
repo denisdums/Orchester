@@ -19,10 +19,10 @@ export async function action({request, params}: ActionFunctionArgs) {
     let success, event;
     try {
         event = await EventService.savePointing(params.id, presencesIds, excusesIds);
-        success = true;
+        success = !!event;
     } catch (e) {
         success = false;
     }
 
-    return {success, updated: new Date(), event};
+    return {success, updated: new Date()};
 }

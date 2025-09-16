@@ -3,7 +3,8 @@ import {LoaderFunctionArgs, useLoaderData} from "react-router";
 import {MusicianService} from "~/services/musician.service";
 import {IMusician} from "~/interfaces/musician.interface";
 import Musician from "~/pages/Musician";
-import {IEventParams} from "~/interfaces/event.interface";
+import {IStrapiParams} from "~/interfaces/strapi.interface";
+import {getDateFiltersFromRequest, getDefaultEndDate, getDefaultStartDate, getStrapiDateFilters} from "~/lib/utils";
 
 export const meta: MetaFunction = () => {
     return [
@@ -17,28 +18,8 @@ export async function loader({request, params}: LoaderFunctionArgs) {
         throw new Response("No ID provided", {status: 400});
     }
 
-    const searchParams = new URL(request.url).searchParams;
-    const startDate = searchParams.get('startDate');
-    const endDate = searchParams.get('endDate');
-
-    const filters: IEventParams[] = [
-        {
-            key: 'sort',
-            value: 'date:desc',
-        },
-        {
-            key: 'pagination[pageSize]',
-            value: '100',
-        }
-    ];
-
-    if (startDate) {
-        filters.push({key: 'filters[date][$gt]', value: new Date(startDate).toISOString()});
-    }
-
-    if (endDate) {
-        filters.push({key: 'filters[date][$lt]', value: new Date(endDate).toISOString()});
-    }
+    const {startDate, endDate} = getDateFiltersFromRequest(request)
+    const filters = getStrapiDateFilters(startDate, endDate);
 
     const musician = await MusicianService.getByID(params.id, filters);
 
