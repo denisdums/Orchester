@@ -7,13 +7,11 @@ import {EventService} from "~/services/event.service";
 import {IStrapiParams} from "~/interfaces/strapi.interface";
 
 export const MusicianService = {
-    getAll: async (page: number = 1): Promise<{ musicians: IMusician[], meta: IMeta }> => {
-        const {data, meta} = await SheetInfosRepository.getAll(page);
-        const musicians = await Promise.all(data.map(async (rawSheetInfos: IRawSheetInfos): Promise<IMusician> => {
-            const presences = await EventService.getPresencesByMusicianID(rawSheetInfos.id.toString());
-            return MusicianFactory.fromRawSheetInfosToMusician(rawSheetInfos, presences);
-        }));
-
+    getAll: async (page: number = 1, full: boolean = false): Promise<{ musicians: IMusician[], meta: IMeta }> => {
+        const {data, meta} = await SheetInfosRepository.getAll(page, full);
+        const musicians = data.map((rawSheetInfos: IRawSheetInfos): IMusician => {
+            return MusicianFactory.fromRawSheetInfosToMusician(rawSheetInfos);
+        })
         return {musicians, meta}
     },
 

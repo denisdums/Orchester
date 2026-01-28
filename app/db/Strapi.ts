@@ -57,7 +57,7 @@ const StrapiClient = {
             const response: AxiosResponse = await this.instance.get(`${contentType}/${id}`, config);
             return response.data;
         } catch (e) {
-            //AxiosErrorLogger(e)
+            console.log('error in findOne');
         }
     },
 
