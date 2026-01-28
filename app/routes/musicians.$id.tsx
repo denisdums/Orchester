@@ -3,8 +3,7 @@ import {LoaderFunctionArgs, useLoaderData} from "react-router";
 import {MusicianService} from "~/services/musician.service";
 import {IMusician} from "~/interfaces/musician.interface";
 import Musician from "~/pages/Musician";
-import {IStrapiParams} from "~/interfaces/strapi.interface";
-import {getDateFiltersFromRequest, getDefaultEndDate, getDefaultStartDate, getStrapiDateFilters} from "~/lib/utils";
+import {getDateFiltersFromRequest, getStrapiDateFilters} from "~/lib/utils";
 
 export const meta: MetaFunction = () => {
     return [

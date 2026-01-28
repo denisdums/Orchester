@@ -1,7 +1,4 @@
 import type {MetaFunction} from "@remix-run/node";
-import {LoaderFunctionArgs, useLoaderData} from "react-router";
-import {MusicianService} from "~/services/musician.service";
-import {IMusician} from "~/interfaces/musician.interface";
 import Musicians from "~/pages/Musicians";
 
 export const meta: MetaFunction = () => {
@@ -11,13 +8,10 @@ export const meta: MetaFunction = () => {
     ];
 };
 
-export async function loader({request}:LoaderFunctionArgs): Promise<{ musicians: IMusician[], meta: Record<string, any> }> {
-    const page = new URL(request.url).searchParams.get('page');
-    const {musicians, meta} = await MusicianService.getAll(parseInt(page || '1'));
-    return {musicians, meta}
+export async function loader() {
+    return null;
 }
 
 export default function Index() {
-    const {musicians, meta} = useLoaderData() as { musicians: IMusician[], meta: Record<string, any>};
-    return <Musicians musicians={musicians} meta={meta}/>;
+    return <Musicians/>;
 }

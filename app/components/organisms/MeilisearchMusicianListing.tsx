@@ -51,6 +51,7 @@ export default function MeilisearchMusicianListing() {
                             <RefinementList
                                 attribute="pupitre.title"
                                 sortBy={["name:asc"]}
+                                limit={100}
                                 classNames={{
                                     root: "mb-4",
                                     label: "text-sm font-medium",

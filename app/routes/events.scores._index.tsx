@@ -5,10 +5,8 @@ import {UserService} from "~/services/user.service";
 import {redirect} from "@remix-run/node";
 import {MusicianService} from "~/services/musician.service";
 import {EventService} from "~/services/event.service";
-import EventsTable from "~/pages/EventsTable";
 import {IUser} from "~/interfaces/user.interface";
-import {IEvent} from "~/interfaces/event.interface";
-import {IMusician, IMusicianGroup} from "~/interfaces/musician.interface";
+import {IMusician} from "~/interfaces/musician.interface";
 import {getDateFiltersFromRequest, getStrapiDateFilters} from "~/lib/utils";
 import EventsScoreTable from "~/pages/EventsScoreTable";
 
