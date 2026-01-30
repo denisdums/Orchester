@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import type {MetaFunction} from "@remix-run/node";
 import {LoaderFunctionArgs, useLoaderData} from "react-router";
 import {SessionService} from "~/services/session.service";
@@ -39,6 +40,17 @@ export async function loader({request}: LoaderFunctionArgs) {
 
     const musiciansLength = musicians.length;
     const eventsUsedForScores = events.filter(event => (event.title.startsWith('Défilé') || event.title.startsWith('Répétition')) && event.presences.length > 0);
+    const eventConcerts = events.filter(event => event.title.startsWith('Concert') || event.title.startsWith('Messe'));
+    const eventBandas = events.filter(event => event.title.startsWith('Saint Martin'));
+    const defileEvents = eventsUsedForScores.filter(event => event.title.startsWith('Défilé'));
+    const repetitionEvents = eventsUsedForScores.filter(event => event.title.startsWith('Répétition'));
+
+    const averageDefile = Math.ceil(defileEvents.reduce((acc, event) => acc + event.presences.length, 0) / (defileEvents.length || 1));
+    const averageRepetition = Math.ceil(repetitionEvents.reduce((acc, event) => acc + event.presences.length, 0) / (repetitionEvents.length || 1));
+    const averageConcert = Math.ceil(eventConcerts.reduce((acc, event) => acc + event.presences.length, 0) / (eventConcerts.length || 1));
+    const averageBanda = Math.ceil(eventBandas.reduce((acc, event) => acc + event.presences.length, 0) / (eventBandas.length || 1));
+    const averageOverall = Math.ceil(eventsUsedForScores.reduce((acc, event) => acc + event.presences.length, 0) / (eventsUsedForScores.length || 1));
+
     const eventsWithScores = eventsUsedForScores.map(event => {
         const isDefile = event.title.startsWith('Défilé');
         const presencesLength = event.presences.length;
@@ -77,18 +89,53 @@ export async function loader({request}: LoaderFunctionArgs) {
     }).sort((a, b) => b.totalScore - a.totalScore);
 
 
-    return {user, events, musiciansWithTotalScores, startDate, endDate};
+    return {
+        user,
+        events,
+        musiciansWithTotalScores,
+        startDate,
+        endDate,
+        averageDefile,
+        averageRepetition,
+        averageConcert,
+        averageBanda,
+        averageOverall,
+        defileEvents,
+        repetitionEvents,
+        eventConcerts,
+        eventBandas,
+    };
 }
 
 export default function Index() {
-    const {user, musiciansWithTotalScores, startDate, endDate} = useLoaderData() as {
+    const props = useLoaderData() as {
         user: IUser,
         musiciansWithTotalScores: (IMusician & { totalScore: number, percentageOfPresenceAtEvents: number })[],
         startDate?: string,
-        endDate?: string
+        endDate?: string,
+        averageDefile: number,
+        averageRepetition: number,
+        averageConcert: number,
+        averageBanda: number,
+        averageOverall: number,
+        defileEvents: any[],
+        repetitionEvents: any[],
+        eventConcerts: any[],
+        eventBandas: any[],
     }
 
 
-    return <EventsScoreTable user={user} musiciansWithTotalScores={musiciansWithTotalScores} startDate={startDate}
-                             endDate={endDate}/>;
+    return <EventsScoreTable user={props.user} musiciansWithTotalScores={props.musiciansWithTotalScores}
+                             startDate={props.startDate}
+                             endDate={props.endDate}
+                             averageDefile={props.averageDefile}
+                             averageRepetition={props.averageRepetition}
+                             averageConcert={props.averageConcert}
+                             averageBanda={props.averageBanda}
+                             averageOverall={props.averageOverall}
+                             defileEvents={props.defileEvents}
+                             repetitionEvents={props.repetitionEvents}
+                             eventConcerts={props.eventConcerts}
+                             eventBandas={props.eventBandas}
+    />;
 }
